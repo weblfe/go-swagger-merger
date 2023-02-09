@@ -16,12 +16,14 @@ var outputFile string
 var cfgFile string
 var suffix = new([]string)
 var beautify bool
+var version = "0.1.2"
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "go-swagger-merger",
-	Short: "swagger merger",
-	Long:  `swagger merger`,
+	Use:     "go-swagger-merger",
+	Short:   "swagger merger",
+	Version: version,
+	Long:    `swagger merger Author: weblfe`,
 	Example: `<files> go-swagger-merger -o swagger.json b.swagger.json c.swagger.json
 <dir> go-swagger-merger -o swagger.yaml api/bff/ 
 <suffix> go-swagger-merger -o swagger.json -s .swagger.json -s .swagger.yml  api/bff
