@@ -2,3 +2,5 @@
 swagger.json
 swagger.yaml
 gen/
+go-swagger-merger
+*.exe
