@@ -2,6 +2,7 @@
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/weblfe/go-swagger-merger/swagger"
@@ -28,6 +29,12 @@ var rootCmd = &cobra.Command{
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	RunE: func(cmd *cobra.Command, args []string) error {
+		if len(args) <= 0 {
+			return errors.New(`miss input files`)
+		}
+		if outputFile == "" {
+			outputFile = "swagger.json"
+		}
 		var (
 			merger = swagger.NewMerger()
 			filter = merger.CreatePatternFilter(*suffix)
