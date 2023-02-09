@@ -5,6 +5,7 @@ import (
 	"github.com/ghodss/yaml"
 	"io"
 	"io/fs"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -33,6 +34,7 @@ func (m *Merger) AddFile(file string, pattern ...func(string) bool) error {
 	if stat.IsDir() {
 		return filepath.Walk(file, m.recursive(file, pattern[0]))
 	}
+	log.Printf("add file %s \n", file)
 	f, err := os.Open(file)
 	if err != nil {
 		return err
