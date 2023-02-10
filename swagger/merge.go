@@ -118,9 +118,6 @@ func (m *Merger) recursive(root string, pattern func(string) bool) filepath.Walk
 		if info == nil {
 			return nil
 		}
-		if !strings.HasPrefix(path, root) {
-			path = filepath.Join(root, path)
-		}
 		if info.IsDir() {
 			if root != path {
 				return filepath.Walk(path, m.recursive(path, pattern))
