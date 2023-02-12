@@ -55,13 +55,15 @@ func (m *Merger) fixedPattern(p string) string {
 	if p == "" {
 		return p
 	}
-	if strings.HasSuffix("@regexp:", p) {
-		return strings.TrimPrefix("@regexp", p)
+	if strings.HasSuffix(p, "@regexp:") {
+		return strings.TrimPrefix(p, "@regexp")
 	}
-	if strings.HasPrefix("*", p) {
+	if strings.HasPrefix(p, "*") {
 		p = "^" + p
 	}
-	p = p + "$"
+	if strings.HasSuffix(p, "*") {
+		p = p + "$"
+	}
 	return strings.ReplaceAll(p, ".", "\\.")
 }
 
@@ -184,7 +186,8 @@ func (m *Merger) CreatePatternFilter(suffix []string) func(string) bool {
 		if _, ok := patterns[v]; ok {
 			continue
 		}
-		patterns[v] = regexp.MustCompile(m.fixedPattern(v))
+		p := m.fixedPattern(v)
+		patterns[v] = regexp.MustCompile(p)
 	}
 	return func(s string) bool {
 		for _, v := range patterns {
