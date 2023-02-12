@@ -16,7 +16,7 @@ var outputFile string
 var cfgFile string
 var suffix = new([]string)
 var beautify bool
-var version = "0.1.2"
+var version = "0.1.6"
 var excludes = new([]string)
 
 // rootCmd represents the base command when called without any subcommands
