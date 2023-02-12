@@ -68,6 +68,10 @@ func (m *Merger) fixedPattern(p string) string {
 }
 
 func (m *Merger) AddFile(file string, pattern ...func(string) bool) error {
+	file, err := filepath.Abs(file)
+	if err != nil {
+		return err
+	}
 	stat, err := os.Stat(file)
 	if err != nil {
 		return err
@@ -165,9 +169,6 @@ func (m *Merger) recursive(root string, pattern func(string) bool) filepath.Walk
 			return nil
 		}
 		if info.IsDir() {
-			if root != path {
-				return filepath.Walk(path, m.recursive(path, pattern))
-			}
 			return nil
 		}
 		if !pattern(path) || m.exclude(path) {
