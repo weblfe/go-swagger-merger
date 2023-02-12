@@ -17,6 +17,7 @@ var cfgFile string
 var suffix = new([]string)
 var beautify bool
 var version = "0.1.2"
+var excludes = new([]string)
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -41,6 +42,12 @@ var rootCmd = &cobra.Command{
 			merger = swagger.NewMerger()
 			filter = merger.CreatePatternFilter(*suffix)
 		)
+		// exclude pattern
+		if len(*excludes) > 0 {
+			if err := merger.AddExcludes(*excludes...); err != nil {
+				return err
+			}
+		}
 		for _, file := range args {
 			if err := merger.AddFile(file, filter); err != nil {
 				return err
@@ -74,6 +81,7 @@ func init() {
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.Flags().StringVarP(&outputFile, "output", "o", "", "merge swagger.json to save file")
 	rootCmd.Flags().StringArrayVarP(suffix, "suffix", "s", defaultSuffix, "suffix filter for swagger matcher")
+	rootCmd.Flags().StringArrayVarP(excludes, "excludes", "e", nil, "excludes pattern for file name")
 	rootCmd.Flags().BoolVarP(&beautify, "beautify", "b", false, "merge swagger.json unzip beautify format")
 }
 
